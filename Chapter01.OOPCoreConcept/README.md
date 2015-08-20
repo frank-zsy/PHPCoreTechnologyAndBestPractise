@@ -26,7 +26,7 @@
   
 ###反射
 * 反射提供了在运行时提取类的详细信息的方式。
-* 可使用ReflectionObject类对对象进行反射解析，也可以通过ReflectionClass对类进行反射解析，当然简单的话也可以用get_object_vars、get_class_vars和get_class_methods几个方法来获取对象或类的属性与方法，get_class可以或者某对象对应的类。
+* 可使用ReflectionObject类对对象进行反射解析，也可以通过ReflectionClass对类进行反射解析，当然简单的话也可以用get_object_vars、get_class_vars和get_class_methods几个方法来获取对象或类的属性与方法，get_class可以获取某对象对应的类。
 * 反射由于会暴露类中本不应暴露的属性或方法，所以会破坏类的封装性，而且反射的消耗也较大，所以一般不建议大量使用反射API。
   
 ###异常和错误
@@ -35,6 +35,6 @@
 * 可以使用set_error_handler(error_function, error_types)来进行自定义的错误处理，该函数会绕过PHP自己的错误处理机制，所以必要时需要使用die()来终止程序。其中error_function必须有$errno、$errstr、$errfile和$errline四个参数。
 * set_error_handler并不能托管所有类型的错误，E_ERROR、E_PARSE、E_CORE_ERROR、E_CORE_WARNING、E_COMPILE_ERROR、E_COMPILE_WARNING和E_STRICT中的部分错误会以原始方式显示。
 * 使用set_error_handler后代码里的错误抑制@将失效。
-* 使用set_error_handler可以实现类似与异常处理的效果。
-* 由于fatal error无法被捕捉，所以在出现fatal error时程序一定会被终止，此时可以使用register_shutdown_function来实现，该函数会在程序退出前执行，类似于Java中的finally函数，可以在这里进行一些退出前的应急操作。
+* 使用set_error_handler可以实现类似于异常处理的效果。
+* 由于fatal error无法被捕捉，所以在出现fatal error时程序一定会被终止，此时可以使用register_shutdown_function来实现退出前的应急操作，该函数会在程序退出前执行，类似于Java中的finally函数。
   
