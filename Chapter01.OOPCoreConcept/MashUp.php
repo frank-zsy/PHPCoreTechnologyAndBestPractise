@@ -40,6 +40,10 @@ class Test {
 		var_dump($cls_methods);
 	}
 
+	private static function printOut() {
+		echo "This is a print function in Test." . PHP_EOL;	// Override the printOut function in trait PrintSomething
+	}
+
 }
 
 // Magic functions test
@@ -58,7 +62,7 @@ Test::printMethods();
 Test::printOut();
 
 // Reflection test
-$obj = new ReflectionClass('Test');
+$obj = new ReflectionClass('Test');	// Will not have newAttr
 $className = $obj->getName();
 $methods = $properties = $traits = array();
 foreach ($obj->getProperties() as $v) {
