@@ -60,30 +60,3 @@ Test::printMethods();
 
 // Trait test
 Test::printOut();
-
-// Reflection test
-$obj = new ReflectionClass('Test');	// Will not have newAttr
-$className = $obj->getName();
-$methods = $properties = $traits = array();
-foreach ($obj->getProperties() as $v) {
-	$properties[$v->getName()] = $v;
-}
-foreach ($obj->getMethods() as $m) {
-	$methods[$m->getName()] = $m;
-}
-foreach ($obj->getTraits() as $m) {
-	$traits[$m->getName()] = $m;
-}
-echo "Class {$className} {" . PHP_EOL;
-foreach ($properties as $key => $value) {
-	echo $value->isPublic() ? "public " : ($value->isPrivate() ? "private " : ($value->isProtected() ? "protected " : ""));
-	echo $key . PHP_EOL;
-}
-foreach ($methods as $key => $value) {
-	echo $value->isPublic() ? "public " : ($value->isPrivate() ? "private " : ($value->isProtected() ? "protected " : ""));
-	echo "function {$key}{}" . PHP_EOL;
-}
-foreach ($traits as $key => $value) {
-	echo "trait {$key} : {$value}" . PHP_EOL;
-}
-echo "}" . PHP_EOL;
