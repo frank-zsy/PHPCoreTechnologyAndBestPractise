@@ -106,4 +106,22 @@
 ###PHP与cURL
 ---
 * cURL是利用URL语法规定传输文件和数据的工具，在PHP中有相应的cURL扩展
-* 具体用法见例
+* bool curl_setopt(resource $ch, int $option, mixed $value) 函数可以设置的选项
+ + CURLOPT_AUTOREFERER 根据Location重定向时自动设置header中的Referer信息
+ + CURLOPT_COOKIESESSION 启用该选项时cURL仅传递Session Cookie，而忽略其他Cookie，默认情况下发送所有Cookie
+ + CURLOPT_FOLLOWLOCATION 启用时将服务器返回的Location放在header中递归返回给服务器，可以用CURLOPT_MAXREDIRS限制递归返回数量
+ + CURLOPT_HEADER 启用时将头文件的信息作为数据流输出
+ + CURLOPT_RETURNTRANSFER 将curl_exec()函数获取的信息以文件流形式返回，不直接输出
+ + CURLOPT_INFILESIZE 设置上传文件的大小，单位为byte，即字节
+ + CURLOPT_MAXCONNECTS 允许最大连接数，超过会通过CURLOPT_CLOSEPOLICY决定应该停止哪些连接
+ + CURLOPT_MAXREDIS 指定HTTP重定向的最多数量
+ + CURLOPT_COOKIE 设置HTTP请求中的Cookie部分内容，例如"fruit=apple;colour=red"
+ + CURLOPT_COOKIEFILE 包含Cookie数据的文件名
+ + CURLOPT_COOKIEJAR 连接结束后保存Cookie信息的文件
+ + CURLOPT_ENCODING 设置HTTP请求头中"Accept-Encoding"的值，支持的有identity、deflate和gzip
+ + CURLOPT_POSTFIELDS 设置POST发送的数据，可以使用数组或文件。若设置数组则Content-Type会被设为multipart/form-data，文件的话加上@前缀并使用完整路径
+ + CURLOPT_REFERER 设置HTTP请求头中Referer的内容
+ + CURLOPT_HTTPHEADER 设置HTTP头字段的数组
+ + CURLOPT_FILE 设置输出文件的位置，值是一个资源类型，默认为STDOUT
+ + CURLOPT_INFILE 在上传文件时需要读取的文件地址，值是一个资源类型
+* 其他具体用法见例
