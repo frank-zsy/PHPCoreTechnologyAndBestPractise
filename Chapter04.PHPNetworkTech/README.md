@@ -56,6 +56,7 @@
 * get_headers函数 用于取得服务器响应一个HTTP请求发送的头部信息
 * header函数 用于发送HTTP头，但该函数前不能有输出或者空格
 * http_build_query函数 用于构造HTTP参数，主要是把数组元素以=连接kv并用&连接构造成字符串
+* parse_url函数 用于解析一个URL并分别得到各部分
 * file系列 fopen、file_get_contents等函数用于操作文件或网络资源
 * stream_系列 可以发送请求，不限于HTTP协议
 * socket系列 通过socket发送请求数据，不限于HTTP协议
@@ -63,4 +64,46 @@
 
 ###Socket通信机制
 ---
-* 
+* 基于进程的端对端通信
+* 端口号相关内容
+ + 常用端口小于256，服务器一般使用这些端口
+ + 基于TCP/IP的服务一般使用1~1023间的端口，这些端口由IANA管理
+ + 临时端口号为1024~5000，这些端口为临时使用，只要保证唯一即可
+ + 大于5000是为其他服务器预留的
+* 常见的端口号
+ + FTP 20、21
+ + SMTP 25
+ + HTTP 80
+ + HTTPS 443
+  
+###PHP与Socket相关函数
+---
+* resource socket_create(int $domain, int $type, int $protocol) 用户创建一个Socket
+ + $domain 协议族，IPv4、IPv6或UNIX本地通信协议
+ + $type 交互类型，可以是基于TCP的流模式、基于UDP的流模式、基于TCP的分组模式、原始套接字(IP层协议)及一个基于TCP的无序模式
+ + $protocol 使用协议类型，可以是ICMP、UDP或TCP
+* bool socket_bind($resource $socket, string $address[, int $port = 0]) 用于将IP地址和端口绑定到socket句柄上
+ + $socket 要绑定的socket句柄
+ + $address 要绑定的IP地址
+ + $port 要绑定的端口，当$domain是IPv4时需要指定该参数
+* bool socket_listen(resource $socket[, int $backlog = 0]) 用于监听客户端数据
+ + $socket 创建的socket句柄
+ + $backlog 允许的最大连接数
+* bool set_socket_nonblock(resource $socket) 用于将socket设置为非阻塞模式，单进程服务器中设置为非阻塞非常必要
+ + $socket 需要设置的socket句柄
+* int socket_write(resource $socket, string $buffer[, int $length = 0]) 向socket中写入数据
+ + $socket 需要写入的socket句柄
+ + $buffer 需要写入的内容
+ + $length 写入内容的长度，若大于buffer的长度，则截断为buffer的长度
+* string socket_read(resource $socket, int $length[, int $type = PHP_BINARY_READ]) 从socket中读取指定长度的数据
+ + $socket 读取的socket句柄
+ + $length 需要读取的长度
+ + $type 默认值为安全读取二进制数据，另一个值是PHP_NORMAL_READ，遇到"\r"或"\n"时即停止
+* resource pfsockopen 打开一个长连接的socket套接字，是fsockopen的长连接版本
+* bool socket_set_option(resource $socket, int $level, int $optname, mixed $optval) 用于设置socket选项
+* int socket_last_error([resource $socket]) 获取任何socket函数最近一次产生的错误信息，可以使用socket_strerror函数将此错误号转换为字符串描述
+
+###PHP与cURL
+---
+* cURL是利用URL语法规定传输文件和数据的工具，在PHP中有相应的cURL扩展
+* 具体用法见例
