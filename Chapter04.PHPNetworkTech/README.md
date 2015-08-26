@@ -125,3 +125,39 @@
  + CURLOPT_FILE 设置输出文件的位置，值是一个资源类型，默认为STDOUT
  + CURLOPT_INFILE 在上传文件时需要读取的文件地址，值是一个资源类型
 * 其他具体用法见例
+
+###PHP远程调用中间件
+---
+* PHPRPC
+* Hprose
+
+###Cookie
+---
+* 存储在客户端的小段数据，用于用户识别与跟踪
+* Cookie是由客户端（浏览器）管理的，关于Cookie的文档在RFC6265、RFC2109中
+* PHP中使用setcookie或setrawcookie函数来设置Cookie，其中setrawcookie不会对value进行urlencode转码
+ + 返回false表示设置失败，返回true代表设置成功，但是并不代表客户端一定能成功设置
+ + 由PHP在当前页面设置的Cookie并不能立即生效，而Javascript设置的Cookie可以立即生效
+ + Cookie没有显示的删除函数，一般想要删除Cookie可以将expire设置为以前的时间即可触发浏览器的删除机制
+* Cookie常用来存储不是很敏感的信息，如记住用户名密码、免登录、防刷票等
+* 在php.ini中打开HttpOnly选项，则可以屏蔽Javascript脚本读取Cookie
+* 一个域名下，IE可以存放50个Cookie，Firefox可以存放150个，总数不超过100个，且Cookie最大字节数为4097
+* 注意：不应将Cookie当做客户端存储器来使用，可以使用localStorage来做本地存储
+* 使用P3P可以解决简单的Cookie跨域访问，如果是复杂工程可使用例如CAS等完整的SSO方案
+  
+###Session
+---
+* Session本质上和Cookie一样是一种保持客户端和服务器间会话连接状态的机制
+* 可以使用在Cookie中传递SessionID或者URL重写来实现Session
+* Session存储在服务器，可以在不同页面间传递变量、用户身份认证、程序状态记录等
+* 使用session_start函数开始执行
+* php.ini中的session.save_path、session.gc_divisor等参数可以影响Session行为，也可以使用session_set_cookie_param函数进行设置
+
+###Cookie与Session Q&A
+---
+* Cookie运行在客户端，Session运行在服务器，但是SessionID需要作为Cookie存储在客户端
+* 如果禁用客户端Cookie，会导致SessionID无法存储而影响Session的使用，但是可以通过URL重写来传递SessionID
+* 关闭浏览器会导致存储在内存中的Cookie丢失，但是存储在硬盘上的不会。而Session的内容则与客户端无关，需要使用unset删除，否则可能被系统回收，也可能永远残留在系统中
+* Session并不会比Cookie更安全，因为如果客户端Cookie的SessionID被劫持，发送到服务器后即可完成Cookie与Session的绑定
+* Cookie由于会带在请求的头部来回传递，所以不应该将Cookie作为大量数据的存储，而仅应该存储必要数据
+* Cookie被劫持后服务器将无法进行身份判断，可以使用动态的特殊化校验信息进行校验
