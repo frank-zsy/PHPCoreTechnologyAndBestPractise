@@ -44,7 +44,18 @@
 ---
 <table>
 	<tbody>
-		<tr><td></td><td><em>MyISAM</em></td><em>Memory</em></td><td><em>InnoDB</em></td></tr>
+		<tr><td></td><td><em>MyISAM</em></td><td><em>Memory</em></td><td><em>InnoDB</em></td></tr>
 		<tr><td>用途</td><td>快读</td><td>内存数据</td><td>完整事务支持</td></tr>
+		<tr><td>锁</td><td>全表锁定</td><td>全表锁定</td><td>多种隔离级别的行锁</td></tr>
+		<tr><td>持久性</td><td>基于表恢复</td><td>无磁盘I/O，无可持久性</td><td>基于日志的恢复</td></tr>
+		<tr><td>事务</td><td>不支持</td><td>不支持</td><td>支持</td></tr>
+		<tr><td>支持索引类型</td><td>B-tree/FullText/R-tree</td><td>Hash/B-tree</td><td>Hash/B-tree</td></tr>
 	</tbody>
 </table>
+* 普遍认为MyISAM注重性能，InnoDB注重事务
+* 选择引擎的基本原则
+ + R / W > 100 : 1 且update较少；并发不高，不需要事务；表数据量少；硬件资源有限时使用MyISAM
+ + R / W较小，频繁更新大字段；表数据量超过1000W，并发高；安全性和可用性要求高时使用InnoDB
+ + 内存充足；数据一致性要求不高；需要定期归档的数据使用Memory
+
+
